@@ -276,9 +276,9 @@ router.post('/FINAL_SAVE', async (req, res) => {
         'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN,
 
 
-        "SWreport": input.editedItem_FN.FINAL_SWreport,
-        "K1b": input.editedItem_FN.FINAL_K1b,
-        "K1v": input.editedItem_FN.FINAL_K1v,
+        "SWreport": input.editedItem_FN.SWreport,
+        "K1b": input.editedItem_FN.K1b,
+        "K1v": input.editedItem_FN.K1v,
       };
 
 
@@ -327,7 +327,11 @@ router.post('/FINAL_SAVE', async (req, res) => {
           'REMARK': input.editedItem_FN.REMARK,
           'LOAD': input.editedItem_FN.LOAD,
           'CONVERSE': input.editedItem_FN.CONVERSE,
-          'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN
+          'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN,
+
+          "SWreport": input.editedItem_FN.SWreport,
+        "K1b": input.editedItem_FN.K1b,
+        "K1v": input.editedItem_FN.K1v,
         };
 
 
@@ -367,7 +371,11 @@ router.post('/FINAL_SAVE', async (req, res) => {
           'REMARK': input.editedItem_FN.REMARK,
           'LOAD': input.editedItem_FN.LOAD,
           'CONVERSE': input.editedItem_FN.CONVERSE,
-          'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN
+          'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN,
+
+          "SWreport": input.editedItem_FN.SWreport,
+        "K1b": input.editedItem_FN.K1b,
+        "K1v": input.editedItem_FN.K1v,
         };
         FINAL[n] = newob;
         out = [{ 'CP': CP }, { $set: { 'FINAL': FINAL } }]
@@ -407,7 +415,11 @@ router.post('/FINAL_SAVE', async (req, res) => {
         'REMARK': input.editedItem_FN.REMARK,
         'LOAD': input.editedItem_FN.LOAD,
         'CONVERSE': input.editedItem_FN.CONVERSE,
-        'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN
+        'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN,
+
+        "SWreport": input.editedItem_FN.SWreport,
+        "K1b": input.editedItem_FN.K1b,
+        "K1v": input.editedItem_FN.K1v,
       }];
 
       let updatePATTERN = await mongodb.update(PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'FINAL': FINAL } });
