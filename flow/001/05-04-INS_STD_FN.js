@@ -16,6 +16,7 @@ let METHOD = "METHOD";
 let INSTRUMENTS = "INSTRUMENTS";
 let RESULTFORMAT = "RESULTFORMAT";
 let SPECIFICATION = "SPECIFICATION";
+let COMMENT = "COMMENT";
 let TOLERANCE = "TOLERANCE";
 let GRAPHTYPE = "GRAPHTYPE";
 let CALCULATE = "CALCULATE";
@@ -64,6 +65,7 @@ router.post('/INSPECTION_FINAL_GET_STEP2', async (req, res) => {
   let output8 = [];
   let output9 = [];
   let output10 = [];
+  let output11 = [];
   //-------------------------------------
   if (input[`ITEMs`] != undefined) {
 
@@ -138,12 +140,18 @@ router.post('/INSPECTION_FINAL_GET_STEP2', async (req, res) => {
       }
     }
 
+    let find11 = await mongodb.find(masterDB, COMMENT, {  "activeid": "active_id" });
+    if (find11.length > 0) {
+      for (i = 0; i < find11.length; i++) {
+        output11.push({ "COMMENT": find11[i]['COMMENT'], "masterID": find11[i]['masterID'] })
+      }
+    }
 
 
 
   }
 
-  return res.json({ "RESULTFORMATdata": RESULTFORMATdata, "METHOD": output3, "LOAD": output4, "CORETYPE": output5, "GT": output6, "UNIT": output7, "FREQUENCY": output8, "CALCULATE": output9, "SPECIFICATION": output10 });
+  return res.json({ "RESULTFORMATdata": RESULTFORMATdata, "METHOD": output3, "LOAD": output4, "CORETYPE": output5, "GT": output6, "UNIT": output7, "FREQUENCY": output8, "CALCULATE": output9, "SPECIFICATION": output10 , "COMMENT": output11 });
 
 });
 

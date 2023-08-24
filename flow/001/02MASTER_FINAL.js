@@ -16,6 +16,7 @@ let SPECIFICATION = "SPECIFICATION";
 let TOLERANCE = "TOLERANCE";
 let GRAPHTYPE = "GRAPHTYPE";
 let CALCULATE = "CALCULATE";
+let COMMENT = "COMMENT";
 
 function makeid(length) {
   var result = '';
@@ -135,6 +136,8 @@ router.post('/GET_ITEMSget_FINAL', async (req, res) => {
  
   return res.json(output);
 });
+
+
 
 router.post('/DROP_ITEMS_FINAL', async (req, res) => {
   //-------------------------------------
@@ -305,6 +308,34 @@ router.post('/DROP_CALCULATE_FINAL', async (req, res) => {
   //-------------------------------------
   if (input.masterID != undefined) {
     let DROPUNIT = await mongodb.update(masterDB, CALCULATE, { 'masterID': input.masterID }, { "$set": { "activeid": "no_active_id" } });
+    output = "OK";
+  }
+
+  return res.json(output);
+});
+
+router.post('/GET_COMMENT_FINAL', async (req, res) => {
+  //-------------------------------------
+  console.log("--GET_COMMENT_FINAL--");
+  input = req.body;
+  output = [];
+  //-------------------------------------
+  let find = await mongodb.find(masterDB, COMMENT, { "activeid": "active_id" });
+  if (find.length > 0) {
+    output = find;
+  }
+  return res.json(output);
+});
+
+router.post('/DROP_COMMENT_FINAL', async (req, res) => {
+  //-------------------------------------
+  console.log("--DROP_COMMENT_FINAL--");
+  input = req.body;
+  output = "NOK";
+  console.log(req.body);
+  //-------------------------------------
+  if (input.masterID != undefined) {
+    let DROPTYPE = await mongodb.update(masterDB, COMMENT, { 'masterID': input.masterID }, { "$set": { "activeid": "no_active_id" } });
     output = "OK";
   }
 
@@ -719,6 +750,56 @@ router.post('/EDIT_CALCULATE_FINAL', async (req, res) => {
   return res.json(output);
 });
 
+
+router.post('/EDIT_COMMENT_FINAL', async (req, res) => {
+  //-------------------------------------
+  console.log("--EDIT_COMMENT_FINAL--");
+  input = req.body;
+  output = "NOK";
+  //-------------------------------------
+  if (input.masterID !== undefined) {
+
+    if (input.masterID === '') {
+      delete input.masterID
+      console.log(input)
+      let find02 = await mongodb.find(masterDB, COMMENT, { "COMMENT": input[`COMMENT`], "activeid": "active_id" });
+      // let find02 = await mongodb.find(masterDB, COMMENT, { $or: [{ "COMMENT":input[`COMMENT`] }, { "activeid":"active_id"} ] });
+      if (find02.length > 0) {
+        output = "HAVEONE";
+      } else {
+        input[`activeid`] = 'active_id';
+        input[`masterID`] = `COMMENT-${Date.now()}${makeid(15)}`
+        let insert01 = await mongodb.insertMany(masterDB, COMMENT, [input]);
+        output = "OK";
+      }
+    } else {
+      let find01 = await mongodb.find(masterDB, COMMENT, { "masterID": input[`masterID`] });
+
+      if (find01.length > 0) {
+        let uid = input.masterID;
+        delete input.masterID;
+        input[`activeid`] = 'active_id';
+        let find02 = await mongodb.find(masterDB, COMMENT, { "COMMENT": input[`COMMENT`], "activeid": "active_id" });
+        // let find02 = await mongodb.find(masterDB, COMMENT, { $or: [{ "COMMENT":input[`COMMENT`] }, { "activeid":"active_id"} ] });
+        if (find02.length > 0) {
+          output = "HAVEONE";
+        } else {
+          let update01 = await mongodb.update(masterDB, COMMENT, { 'masterID': uid }, { "$set": input });
+          output = "OK";
+        }
+
+      } else {
+
+      }
+    }
+
+  } else {
+
+  }
+
+
+  return res.json(output);
+});
 
 
 
