@@ -173,6 +173,24 @@ router.post('/GET_FINAL_DOCUMENT', async (req, res) => {
   return res.json(output);
 });
 
+router.post('/GET_FINAL_COMMENT', async (req, res) => {
+  //-------------------------------------
+  console.log("--GET_FINAL_COMMENT--");
+  input = req.body;
+  output = { "COMMENT": "" }
+  //-------------------------------------
+  console.log(input);
+
+  if (input['masterID'] != undefined) {
+    let find2 = await mongodb.find(masterDB, COMMENT, { "masterID": `${input['masterID']}`, "activeid": "active_id" });
+    if (find2.length > 0) {
+      output[`COMMENT`] = find2[0][`COMMENT`];
+    }
+  }
+
+  return res.json(output);
+});
+
 router.post('/GET_FINAL_CALCULATE', async (req, res) => {
   //-------------------------------------
   console.log("--GET_FINAL_CALCULATE--");
