@@ -25,6 +25,66 @@ let CORETYPE = "CORETYPE";
 let FREQUENCY = "FREQUENCY";
 let PATTERN_01 = "PATTERN_01";
 
+//copy_cp
+
+router.post('/copy_cp', async (req, res) => {
+  //-------------------------------------
+  console.log("--copy_cp--");
+  input = req.body;
+console.log(input)
+  //-------------------------------------
+
+  if (input['CP_MASTER'] != undefined && input['CP_NEW'] != undefined) {
+
+    let masterdata = await mongodb.find(PATTERN, PATTERN_01, { "CP": `${input['CP_MASTER']}` });
+
+    if (masterdata.length > 0) {
+
+      let copy_from_fn = masterdata[0]['FINAL'] ?? {};
+      let copy_from_ic = masterdata[0]['INCOMMING'] ?? {};
+
+      let newdata = await mongodb.find(PATTERN, PATTERN_01, { "CP": `${input['CP_NEW']}` });
+      if (newdata.length > 0) {
+        let updatePATTERN = await mongodb.update(PATTERN, PATTERN_01, { 'CP': `${input['CP_NEW']}` }, { $set: { 'FINAL': copy_from_fn, 'INCOMMING': copy_from_ic } });
+        return res.json({ "msg": "OK" });
+      } else {
+
+        let find2 = await mongodb.find("ERP_data", "ERP_AUTO", {});
+
+        let ERP_data = find2[0][`data`];
+
+
+        for (let i = 0; i < ERP_data.length; i++) {
+
+          if (`${input['CP_NEW']}` === ERP_data[i]['CP']) {
+            // console.log(ERP_data[i]['CP']);
+            let neworder = ERP_data[i];
+            neworder['FINAL'] = copy_from_fn;
+            neworder['INCOMMING'] = copy_from_ic;
+            let updatePATTERN = await mongodb.insertMany(PATTERN, PATTERN_01, [neworder]);
+            // break;
+            return res.json({ "msg": "OK" });
+          }
+        }
+
+
+   
+      }
+
+
+
+    } else {
+      return res.json({ "msg": "NOK" });
+    }
+  }
+  // console.log("------------");
+  // console.log(find2);
+  // console.log("------------");
+
+
+  return res.json({ "msg": "NOK" });
+});
+
 
 router.post('/INSPECTION_FINAL_GET_STEP1', async (req, res) => {
   //-------------------------------------
@@ -140,7 +200,7 @@ router.post('/INSPECTION_FINAL_GET_STEP2', async (req, res) => {
       }
     }
 
-    let find11 = await mongodb.find(masterDB, COMMENT, {  "activeid": "active_id" });
+    let find11 = await mongodb.find(masterDB, COMMENT, { "activeid": "active_id" });
     if (find11.length > 0) {
       for (i = 0; i < find11.length; i++) {
         output11.push({ "COMMENT": find11[i]['COMMENT'], "masterID": find11[i]['masterID'] })
@@ -151,7 +211,7 @@ router.post('/INSPECTION_FINAL_GET_STEP2', async (req, res) => {
 
   }
 
-  return res.json({ "RESULTFORMATdata": RESULTFORMATdata, "METHOD": output3, "LOAD": output4, "CORETYPE": output5, "GT": output6, "UNIT": output7, "FREQUENCY": output8, "CALCULATE": output9, "SPECIFICATION": output10 , "COMMENT": output11 });
+  return res.json({ "RESULTFORMATdata": RESULTFORMATdata, "METHOD": output3, "LOAD": output4, "CORETYPE": output5, "GT": output6, "UNIT": output7, "FREQUENCY": output8, "CALCULATE": output9, "SPECIFICATION": output10, "COMMENT": output11 });
 
 });
 
@@ -356,8 +416,8 @@ router.post('/FINAL_SAVE', async (req, res) => {
           'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN,
 
           "SWreport": input.editedItem_FN.SWreport,
-        "K1b": input.editedItem_FN.K1b,
-        "K1v": input.editedItem_FN.K1v,
+          "K1b": input.editedItem_FN.K1b,
+          "K1v": input.editedItem_FN.K1v,
         };
 
 
@@ -400,8 +460,8 @@ router.post('/FINAL_SAVE', async (req, res) => {
           'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN,
 
           "SWreport": input.editedItem_FN.SWreport,
-        "K1b": input.editedItem_FN.K1b,
-        "K1v": input.editedItem_FN.K1v,
+          "K1b": input.editedItem_FN.K1b,
+          "K1v": input.editedItem_FN.K1v,
         };
         FINAL[n] = newob;
         out = [{ 'CP': CP }, { $set: { 'FINAL': FINAL } }]
@@ -508,7 +568,7 @@ router.post('/FINAL_DELETE', async (req, res) => {
       }
 
 
-    } else  {
+    } else {
 
 
       return res.json("nok");
