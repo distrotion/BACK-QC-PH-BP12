@@ -5,7 +5,7 @@ var mssql = require('../../function/mssql');
 var request = require('request');
 
 let masterDB_FN = "master_FN";
-// let masterDB_IC = "master_IC";
+let masterDB_IC = "master_IC";
 let PATTERN = "PATTERN";
 //
 let GRAPH_TABLE = "GRAPH_TABLE";
@@ -56,6 +56,14 @@ router.post('/GET_MATCP_DATA', async (req, res) => {
   let findSPECIFICATION_FN = await mongodb.find(masterDB_FN, SPECIFICATION, {});
 
 
+  let findTYPE_IC = await mongodb.find(masterDB_IC, TYPE, {});
+  let findITEMs_IC = await mongodb.find(masterDB_IC, ITEMs, {});
+  let findCALCULATE_IC = await mongodb.find(masterDB_IC, CALCULATE, {});
+  let findMACHINE_IC = await mongodb.find(masterDB_IC, MACHINE, {});
+  let findUNIT_IC = await mongodb.find(masterDB_IC, UNIT, {});
+  let findSPECIFICATION_IC = await mongodb.find(masterDB_IC, SPECIFICATION, {});
+
+
   // let findTYPE_IC = await mongodb.find(masterDB_IC, TYPE, {});
   // let findITEMs_IC = await mongodb.find(masterDB_IC, ITEMs, {});
   // let findCALCULATE_IC = await mongodb.find(masterDB_IC, CALCULATE, {});
@@ -84,6 +92,13 @@ router.post('/GET_MATCP_DATA', async (req, res) => {
   output[0][`findMACHINE_FN`] = findMACHINE_FN;
   output[0][`findUNIT_FN`] = findUNIT_FN;
   output[0][`findSPECIFICATION_FN`] = findSPECIFICATION_FN;
+
+  output[0][`findTYPE_IC`] = findTYPE_IC;
+  output[0][`findITEMs_IC`] = findITEMs_IC;
+  output[0][`findCALCULATE_IC`] = findCALCULATE_IC;
+  output[0][`findMACHINE_IC`] = findMACHINE_IC;
+  output[0][`findUNIT_IC`] = findUNIT_IC;
+  output[0][`findSPECIFICATION_IC`] = findSPECIFICATION_IC;
 
 
   // output[0][`findTYPE_IC`] = findTYPE_IC;

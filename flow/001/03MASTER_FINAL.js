@@ -676,7 +676,7 @@ router.post('/EDIT_SPECIFICATION_FINAL', async (req, res) => {
         let find02 = await mongodb.find(masterDB, SPECIFICATION, { "SPECIFICATION": input[`SPECIFICATION`], "activeid": "active_id" });
         // let find02 = await mongodb.find(masterDB, SPECIFICATION, { $or: [ { "SPECIFICATION":input[`SPECIFICATION`],"TYPE":input[`TYPE`] ,"activeid":"active_id" }, { "UNIT":input[`UNIT`],"TYPE":input[`TYPE`] ,"activeid":"active_id"}] });
         if (find02.length > 0) {
-          let update01 = await mongodb.update(masterDB, SPECIFICATION, { 'masterID': uid }, { "$set": { "ITEMs": input[`ITEMs`]} });
+          let update01 = await mongodb.update(masterDB, SPECIFICATION, { 'masterID': uid }, { "$set": { "ITEMs": input[`ITEMs`],"SPECIFICATION": input[`SPECIFICATION`]} });
           output = "OK";
         } else {
           console.log(input);

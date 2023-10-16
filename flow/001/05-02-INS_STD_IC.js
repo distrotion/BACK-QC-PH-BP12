@@ -223,16 +223,16 @@ router.post('/GET_INCOMING_CALCULATE', async (req, res) => {
 //   return res.json(output);
 // });
 
-router.post('/GET_MATCP_DATA', async (req, res) => {
-  //-------------------------------------
-  console.log("--GET_MATCP_DATA--");
-  input = req.body;
-  output = []
-  //-------------------------------------
-  console.log(input);
+// router.post('/GET_MATCP_DATA', async (req, res) => {
+//   //-------------------------------------
+//   console.log("--GET_MATCP_DATA--");
+//   input = req.body;
+//   output = []
+//   //-------------------------------------
+//   console.log(input);
 
-  return res.json(output);
-});
+//   return res.json(output);
+// });
 
 router.post('/GET_MATCP_SETDATA', async (req, res) => {
   //-------------------------------------
@@ -255,26 +255,26 @@ router.post('/GET_MATCP_SETDATA', async (req, res) => {
       input[`INCOMING`] = [{
         'SEQ': 1,
         'TYPE': input.MASTERdatalist.TYPE,
-        'ITEMs': input.editedItem_FN.ITEMs,
+        'ITEMs': input.editedItem_IC.ITEMs,
         'RESULTFORMAT': input.MASTERdatalist.RESULTFORMAT,
         'GRAPHTYPE': input.MASTERdatalist.GRAPHTYPE,
         'INTERSECTION': input.MASTERdatalist.INTERSECTION,
-        'DOCUMENT': input.editedItem_FN.DOCUMENT,
-        'SCMARK': input.editedItem_FN.SCMARK,
-        'METHOD': input.editedItem_FN.METHOD,
-        'INSTRUMENTS': input.editedItem_FN.INSTRUMENTS,
-        'SPECIFICATION': input.editedItem_FN.SPECIFICATION,
-        'SPECIFICATIONve': input.editedItem_FN.SPECIFICATIONve,
-        'UNIT': input.editedItem_FN.UNIT,
-        'POINTPCS': input.editedItem_FN.POINTPCS,
-        'POINT': input.editedItem_FN.POINT,
-        'PCS': input.editedItem_FN.PCS,
-        'FREQUENCY': input.editedItem_FN.FREQUENCY,
-        'MODE': input.editedItem_FN.MODE,
-        'REMARK': input.editedItem_FN.REMARK,
-        'LOAD': input.editedItem_FN.LOAD,
-        'CONVERSE': input.editedItem_FN.CONVERSE,
-        'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN
+        'DOCUMENT': input.editedItem_IC.DOCUMENT,
+        'SCMARK': input.editedItem_IC.SCMARK,
+        'METHOD': input.editedItem_IC.METHOD,
+        'INSTRUMENTS': input.editedItem_IC.INSTRUMENTS,
+        'SPECIFICATION': input.editedItem_IC.SPECIFICATION,
+        'SPECIFICATIONve': input.editedItem_IC.SPECIFICATIONve,
+        'UNIT': input.editedItem_IC.UNIT,
+        'POINTPCS': input.editedItem_IC.POINTPCS,
+        'POINT': input.editedItem_IC.POINT,
+        'PCS': input.editedItem_IC.PCS,
+        'FREQUENCY': input.editedItem_IC.FREQUENCY,
+        'MODE': input.editedItem_IC.MODE,
+        'REMARK': input.editedItem_IC.REMARK,
+        'LOAD': input.editedItem_IC.LOAD,
+        'CONVERSE': input.editedItem_IC.CONVERSE,
+        'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC
       }]
     } else {
       //
@@ -316,26 +316,26 @@ router.post('/INCOMING_SAVE', async (req, res) => {
       let newob = {
         'SEQ': 1,
         'TYPE': input.MASTERdatalist.TYPE,
-        'ITEMs': input.editedItem_FN.ITEMs,
+        'ITEMs': input.editedItem_IC.ITEMs,
         'RESULTFORMAT': input.MASTERdatalist.RESULTFORMAT,
         'GRAPHTYPE': input.MASTERdatalist.GRAPHTYPE,
         'INTERSECTION': input.MASTERdatalist.INTERSECTION,
-        'DOCUMENT': input.editedItem_FN.DOCUMENT,
-        'SCMARK': input.editedItem_FN.SCMARK,
-        'METHOD': input.editedItem_FN.METHOD,
-        'INSTRUMENTS': input.editedItem_FN.INSTRUMENTS,
-        'SPECIFICATION': input.editedItem_FN.SPECIFICATION,
-        'SPECIFICATIONve': input.editedItem_FN.SPECIFICATIONve,
-        'UNIT': input.editedItem_FN.UNIT,
-        'POINTPCS': input.editedItem_FN.POINTPCS,
-        'POINT': input.editedItem_FN.POINT,
-        'PCS': input.editedItem_FN.PCS,
-        'FREQUENCY': input.editedItem_FN.FREQUENCY,
-        'MODE': input.editedItem_FN.MODE,
-        'REMARK': input.editedItem_FN.REMARK,
-        'LOAD': input.editedItem_FN.LOAD,
-        'CONVERSE': input.editedItem_FN.CONVERSE,
-        'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN
+        'DOCUMENT': input.editedItem_IC.DOCUMENT,
+        'SCMARK': input.editedItem_IC.SCMARK,
+        'METHOD': input.editedItem_IC.METHOD,
+        'INSTRUMENTS': input.editedItem_IC.INSTRUMENTS,
+        'SPECIFICATION': input.editedItem_IC.SPECIFICATION,
+        'SPECIFICATIONve': input.editedItem_IC.SPECIFICATIONve,
+        'UNIT': input.editedItem_IC.UNIT,
+        'POINTPCS': input.editedItem_IC.POINTPCS,
+        'POINT': input.editedItem_IC.POINT,
+        'PCS': input.editedItem_IC.PCS,
+        'FREQUENCY': input.editedItem_IC.FREQUENCY,
+        'MODE': input.editedItem_IC.MODE,
+        'REMARK': input.editedItem_IC.REMARK,
+        'LOAD': input.editedItem_IC.LOAD,
+        'CONVERSE': input.editedItem_IC.CONVERSE,
+        'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC
       };
 
 
@@ -350,7 +350,7 @@ router.post('/INCOMING_SAVE', async (req, res) => {
       PATTERN_create_buff = input
       ans = false
       for (i = 0; i < findPATTERN[0].INCOMING.length; i++) {
-        if (PATTERN_create_buff.editedItem_FN.ITEMs === findPATTERN[0].INCOMING[i].ITEMs) {
+        if (PATTERN_create_buff.editedItem_IC.ITEMs === findPATTERN[0].INCOMING[i].ITEMs) {
           ans = true
           break
         }
@@ -365,26 +365,26 @@ router.post('/INCOMING_SAVE', async (req, res) => {
         var newob = {
           'SEQ': NEXT_I,
           'TYPE': input.MASTERdatalist.TYPE,
-          'ITEMs': input.editedItem_FN.ITEMs,
+          'ITEMs': input.editedItem_IC.ITEMs,
           'RESULTFORMAT': input.MASTERdatalist.RESULTFORMAT,
           'GRAPHTYPE': input.MASTERdatalist.GRAPHTYPE,
           'INTERSECTION': input.MASTERdatalist.INTERSECTION,
-          'DOCUMENT': input.editedItem_FN.DOCUMENT,
-          'SCMARK': input.editedItem_FN.SCMARK,
-          'METHOD': input.editedItem_FN.METHOD,
-          'INSTRUMENTS': input.editedItem_FN.INSTRUMENTS,
-          'SPECIFICATION': input.editedItem_FN.SPECIFICATION,
-          'SPECIFICATIONve': input.editedItem_FN.SPECIFICATIONve,
-          'UNIT': input.editedItem_FN.UNIT,
-          'POINTPCS': input.editedItem_FN.POINTPCS,
-          'POINT': input.editedItem_FN.POINT,
-          'PCS': input.editedItem_FN.PCS,
-          'FREQUENCY': input.editedItem_FN.FREQUENCY,
-          'MODE': input.editedItem_FN.MODE,
-          'REMARK': input.editedItem_FN.REMARK,
-          'LOAD': input.editedItem_FN.LOAD,
-          'CONVERSE': input.editedItem_FN.CONVERSE,
-          'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN
+          'DOCUMENT': input.editedItem_IC.DOCUMENT,
+          'SCMARK': input.editedItem_IC.SCMARK,
+          'METHOD': input.editedItem_IC.METHOD,
+          'INSTRUMENTS': input.editedItem_IC.INSTRUMENTS,
+          'SPECIFICATION': input.editedItem_IC.SPECIFICATION,
+          'SPECIFICATIONve': input.editedItem_IC.SPECIFICATIONve,
+          'UNIT': input.editedItem_IC.UNIT,
+          'POINTPCS': input.editedItem_IC.POINTPCS,
+          'POINT': input.editedItem_IC.POINT,
+          'PCS': input.editedItem_IC.PCS,
+          'FREQUENCY': input.editedItem_IC.FREQUENCY,
+          'MODE': input.editedItem_IC.MODE,
+          'REMARK': input.editedItem_IC.REMARK,
+          'LOAD': input.editedItem_IC.LOAD,
+          'CONVERSE': input.editedItem_IC.CONVERSE,
+          'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC
         };
 
 
@@ -405,26 +405,26 @@ router.post('/INCOMING_SAVE', async (req, res) => {
         var newob = {
           'SEQ': INCOMMING.length + 1,
           'TYPE': input.MASTERdatalist.TYPE,
-          'ITEMs': input.editedItem_FN.ITEMs,
+          'ITEMs': input.editedItem_IC.ITEMs,
           'RESULTFORMAT': input.MASTERdatalist.RESULTFORMAT,
           'GRAPHTYPE': input.MASTERdatalist.GRAPHTYPE,
           'INTERSECTION': input.MASTERdatalist.INTERSECTION,
-          'DOCUMENT': input.editedItem_FN.DOCUMENT,
-          'SCMARK': input.editedItem_FN.SCMARK,
-          'METHOD': input.editedItem_FN.METHOD,
-          'INSTRUMENTS': input.editedItem_FN.INSTRUMENTS,
-          'SPECIFICATION': input.editedItem_FN.SPECIFICATION,
-          'SPECIFICATIONve': input.editedItem_FN.SPECIFICATIONve,
-          'UNIT': input.editedItem_FN.UNIT,
-          'POINTPCS': input.editedItem_FN.POINTPCS,
-          'POINT': input.editedItem_FN.POINT,
-          'PCS': input.editedItem_FN.PCS,
-          'FREQUENCY': input.editedItem_FN.FREQUENCY,
-          'MODE': input.editedItem_FN.MODE,
-          'REMARK': input.editedItem_FN.REMARK,
-          'LOAD': input.editedItem_FN.LOAD,
-          'CONVERSE': input.editedItem_FN.CONVERSE,
-          'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN
+          'DOCUMENT': input.editedItem_IC.DOCUMENT,
+          'SCMARK': input.editedItem_IC.SCMARK,
+          'METHOD': input.editedItem_IC.METHOD,
+          'INSTRUMENTS': input.editedItem_IC.INSTRUMENTS,
+          'SPECIFICATION': input.editedItem_IC.SPECIFICATION,
+          'SPECIFICATIONve': input.editedItem_IC.SPECIFICATIONve,
+          'UNIT': input.editedItem_IC.UNIT,
+          'POINTPCS': input.editedItem_IC.POINTPCS,
+          'POINT': input.editedItem_IC.POINT,
+          'PCS': input.editedItem_IC.PCS,
+          'FREQUENCY': input.editedItem_IC.FREQUENCY,
+          'MODE': input.editedItem_IC.MODE,
+          'REMARK': input.editedItem_IC.REMARK,
+          'LOAD': input.editedItem_IC.LOAD,
+          'CONVERSE': input.editedItem_IC.CONVERSE,
+          'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC
         };
         INCOMMING[n] = newob;
         out = [{ 'CP': CP }, { $set: { 'INCOMMING': INCOMMING } }]
@@ -445,26 +445,26 @@ router.post('/INCOMING_SAVE', async (req, res) => {
       INCOMMING = [{
         'SEQ': 1,
         'TYPE': input.MASTERdatalist.TYPE,
-        'ITEMs': input.editedItem_FN.ITEMs,
+        'ITEMs': input.editedItem_IC.ITEMs,
         'RESULTFORMAT': input.MASTERdatalist.RESULTFORMAT,
         'GRAPHTYPE': input.MASTERdatalist.GRAPHTYPE,
         'INTERSECTION': input.MASTERdatalist.INTERSECTION,
-        'DOCUMENT': input.editedItem_FN.DOCUMENT,
-        'SCMARK': input.editedItem_FN.SCMARK,
-        'METHOD': input.editedItem_FN.METHOD,
-        'INSTRUMENTS': input.editedItem_FN.INSTRUMENTS,
-        'SPECIFICATION': input.editedItem_FN.SPECIFICATION,
-        'SPECIFICATIONve': input.editedItem_FN.SPECIFICATIONve,
-        'UNIT': input.editedItem_FN.UNIT,
-        'POINTPCS': input.editedItem_FN.POINTPCS,
-        'POINT': input.editedItem_FN.POINT,
-        'PCS': input.editedItem_FN.PCS,
-        'FREQUENCY': input.editedItem_FN.FREQUENCY,
-        'MODE': input.editedItem_FN.MODE,
-        'REMARK': input.editedItem_FN.REMARK,
-        'LOAD': input.editedItem_FN.LOAD,
-        'CONVERSE': input.editedItem_FN.CONVERSE,
-        'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN
+        'DOCUMENT': input.editedItem_IC.DOCUMENT,
+        'SCMARK': input.editedItem_IC.SCMARK,
+        'METHOD': input.editedItem_IC.METHOD,
+        'INSTRUMENTS': input.editedItem_IC.INSTRUMENTS,
+        'SPECIFICATION': input.editedItem_IC.SPECIFICATION,
+        'SPECIFICATIONve': input.editedItem_IC.SPECIFICATIONve,
+        'UNIT': input.editedItem_IC.UNIT,
+        'POINTPCS': input.editedItem_IC.POINTPCS,
+        'POINT': input.editedItem_IC.POINT,
+        'PCS': input.editedItem_IC.PCS,
+        'FREQUENCY': input.editedItem_IC.FREQUENCY,
+        'MODE': input.editedItem_IC.MODE,
+        'REMARK': input.editedItem_IC.REMARK,
+        'LOAD': input.editedItem_IC.LOAD,
+        'CONVERSE': input.editedItem_IC.CONVERSE,
+        'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC
       }];
 
       let updatePATTERN = await mongodb.update(PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'INCOMMING': INCOMMING } });
@@ -500,8 +500,8 @@ router.post('/INCOMMING_DELETE', async (req, res) => {
       PATTERN_create_buff = input
 
       for (i = 0; i < findPATTERN[0].INCOMMING.length; i++) {
-        console.log(PATTERN_create_buff.editedItem_FN.ITEMs)
-        if (PATTERN_create_buff.editedItem_FN.ITEMs === findPATTERN[0].INCOMMING[i].ITEMs) {
+        console.log(PATTERN_create_buff.editedItem_IC.ITEMs)
+        if (PATTERN_create_buff.editedItem_IC.ITEMs === findPATTERN[0].INCOMMING[i].ITEMs) {
 
 
 
