@@ -223,8 +223,8 @@ router.post('/GET_FINAL_DOCUMENT', async (req, res) => {
   //-------------------------------------
   console.log(input);
 
-  if (input['METHODid'] != undefined) {
-    let find2 = await mongodb.find(masterDB, METHOD, { "METHOD": `${input['METHODid']}`, "activeid": "active_id" });
+  if (input['METHODid'] != undefined && input['ITEMs'] != undefined) {
+    let find2 = await mongodb.find(masterDB, METHOD, { "METHOD": `${input['METHODid']}`,"ITEMs": `${input['ITEMs']}`, "activeid": "active_id" });
     if (find2.length > 0) {
       output[`DOCUMENT`] = find2[0][`DOCUMENTSM`];
     }
