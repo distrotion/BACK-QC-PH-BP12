@@ -44,7 +44,11 @@ router.post('/login', async (req, res) => {
                 "ID":findDB[0]['ID'],
                 "NAME":findDB[0]['NAME'],
                 "LV":findDB[0]['LV'] || '1',
-                "return":'OK'
+                "return":'OK',
+
+                "Section":findDB[0]['Section'],
+                "Def":findDB[0]['Def'],
+                "LOCATION":findDB[0]['LOCATION'],
             }
         }else{
             output = {"return":'PASSWORD INCORRECT'}

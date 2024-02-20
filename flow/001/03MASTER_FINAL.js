@@ -17,6 +17,7 @@ let TOLERANCE = "TOLERANCE";
 let GRAPHTYPE = "GRAPHTYPE";
 let CALCULATE = "CALCULATE";
 let COMMENT = "COMMENT";
+let CALCULATECON = "CALCULATECON";
 
 function makeid(length) {
   var result = '';
@@ -110,6 +111,7 @@ router.post('/GET_ITEMSget_FINAL', async (req, res) => {
   let findTYPE = await mongodb.find(masterDB, TYPE, {});
   let findITEMs = await mongodb.find(masterDB, ITEMs, { "activeid": "active_id" });
   let findCALCULATE = await mongodb.find(masterDB, CALCULATE, { "activeid": "active_id" });
+  let findCALCULATECON = await mongodb.find(masterDB, CALCULATECON, { "activeid": "active_id" });
 
 
   if (findITEMs.length > 0) {
@@ -342,6 +344,46 @@ router.post('/DROP_COMMENT_FINAL', async (req, res) => {
   return res.json(output);
 });
 
+router.post('/GET_CALCULATECONget_FINAL', async (req, res) => {
+  //-------------------------------------
+  console.log("--GET_CALCULATECONget_FINAL--");
+  input = req.body;
+  output = [];
+  //-------------------------------------
+
+  let findSPECIALSPEC = await mongodb.find(masterDB, CALCULATECON, { "activeid": "active_id" });
+
+
+  // if (findSPECIALSPEC.length > 0) {
+  //   //
+  //   for (i = 0; i < findSPECIALSPEC.length; i++) {
+  //     for (j = 0; j < findITEMs.length; j++) {
+  //       if (findSPECIALSPEC[i][`ITEMs`] === findITEMs[j][`masterID`] || '') {
+  //         findSPECIALSPEC[i][`ITEMsname`] = findITEMs[j][`ITEMs`]
+  //         break;
+  //       }
+  //     }
+  //   }
+    //
+    output = findSPECIALSPEC;
+  // }
+  return res.json(output);
+});
+
+router.post('/DROP_CALCULATECON_FINAL', async (req, res) => {
+  //-------------------------------------
+  console.log("--DROP_CALCULATECON_FINAL--");
+  input = req.body;
+  output = "NOK";
+  //-------------------------------------
+  if (input.masterID != undefined) {
+    let DROPUNIT = await mongodb.update(masterDB, CALCULATECON, { 'masterID': input.masterID }, { "$set": { "activeid": "no_active_id" } });
+    output = "OK";
+  }
+
+  return res.json(output);
+});
+
 router.post('/DROPDOWN_MASTER_FINAL', async (req, res) => {
   //-------------------------------------
   console.log("--DROPDOWN_TYPE_FINAL--");
@@ -354,6 +396,7 @@ router.post('/DROPDOWN_MASTER_FINAL', async (req, res) => {
   output6 = [];
   output7 = [];
   output8 = [];
+  output9 = [];
   //-------------------------------------
   let find1 = await mongodb.find(masterDB, TYPE, { "activeid": "active_id" });
 
@@ -408,7 +451,14 @@ router.post('/DROPDOWN_MASTER_FINAL', async (req, res) => {
       output8.push({ "UNIT": find8[i]['UNIT'], "masterID": find8[i]['masterID']  })
     }
   }
-  return res.json({ "TYPE": output1, "ITEMS": output2, "METHOD": output3, "RESULTFORMAT": output4, "GRAPHTYPE": output5, "INSTRUMENTS": output6, "CALCULATE": output7 , "UNIT": output8 });
+
+  let find9 = await mongodb.find(masterDB, CALCULATECON, {"activeid": "active_id"});
+  if (find9.length > 0) {
+    for (i = 0; i < find9.length; i++) {
+      output7.push({ "CALCULATECON": find9[i]['CALCULATE'], "masterID": find9[i]['masterID']  })
+    }
+  }
+  return res.json({ "TYPE": output1, "ITEMS": output2, "METHOD": output3, "RESULTFORMAT": output4, "GRAPHTYPE": output5, "INSTRUMENTS": output6, "CALCULATE": output7 , "UNIT": output8 , "CALCULATECON": output9 });
 });
 //---------------------------------------EDIT---------------------------------------
 
@@ -793,6 +843,59 @@ router.post('/EDIT_COMMENT_FINAL', async (req, res) => {
           output = "HAVEONE";
         } else {
           let update01 = await mongodb.update(masterDB, COMMENT, { 'masterID': uid }, { "$set": input });
+          output = "OK";
+        }
+
+      } else {
+
+      }
+    }
+
+  } else {
+
+  }
+
+
+  return res.json(output);
+});
+
+router.post('/EDIT_CALCULATECON_FINAL', async (req, res) => {
+  //-------------------------------------
+  console.log("--EDIT_CALCULATECON_FINAL--");
+  input = req.body;
+  output = "NOK";
+  //-------------------------------------
+  if (input.masterID !== undefined) {
+
+    if (input.masterID === '') {
+      let find02 = await mongodb.find(masterDB, CALCULATECON, { "CALCULATECON": input[`CALCULATE`], "activeid": "active_id" });
+
+      if(find02.length>0){
+        output = "HAVEONE";
+      }else{
+        delete input.masterID
+        input[`activeid`] = 'active_id';
+        input[`masterID`] = `CALCULATECON-${Date.now()}${makeid(15)}`
+        let insert01 = await mongodb.insertMany(masterDB, CALCULATECON, [input]);
+        output = "OK";
+      }
+      
+
+    } else {
+      let find01 = await mongodb.find(masterDB, CALCULATECON, { "masterID": input[`masterID`] });
+
+      if (find01.length > 0) {
+        let uid = input.masterID;
+        delete input.masterID;
+        input[`activeid`] = 'active_id';
+        let find02 = await mongodb.find(masterDB, CALCULATECON, { "CALCULATECON": input[`CALCULATE`], "activeid": "active_id" });
+        // let find02 = await mongodb.find(masterDB, CALCULATE, { $or: [{ "CALCULATE":input[`CALCULATE`] }, { "activeid":"active_id"} ] });
+        if (find02.length > 0) {
+          delete input[`CALCULATECON`];
+          let update01 = await mongodb.update(masterDB, CALCULATECON, { 'masterID': uid }, { "$set": input });
+          output = "OK";
+        } else {
+          let update01 = await mongodb.update(masterDB, CALCULATECON, { 'masterID': uid }, { "$set": input });
           output = "OK";
         }
 
