@@ -26,9 +26,9 @@ let PATTERN_01 = "PATTERN_01";
 
 
 
-router.post('/INSPECTION_INCOMING_GET_STEP1', async (req, res) => {
+router.post('/INSPECTION_INCOMMING_GET_STEP1', async (req, res) => {
   //-------------------------------------
-  console.log("--INSPECTION_INCOMING_GET_STEP1--");
+  console.log("--INSPECTION_INCOMMING_GET_STEP1--");
   input = req.body;
   output2 = [];
   //-------------------------------------
@@ -47,13 +47,13 @@ router.post('/INSPECTION_INCOMING_GET_STEP1', async (req, res) => {
   return res.json({ "ITEMs": output2 });
 });
 
-router.get('/INCOMINGMASTER', async (req, res) => {
+router.get('/INCOMMINGMASTER', async (req, res) => {
   return res.json("READY");
 });
 
-router.post('/INSPECTION_INCOMING_GET_STEP2', async (req, res) => {
+router.post('/INSPECTION_INCOMMING_GET_STEP2', async (req, res) => {
   //-------------------------------------
-  console.log("--INSPECTION_INCOMING_GET_STEP2--");
+  console.log("--INSPECTION_INCOMMING_GET_STEP2--");
   input = req.body;
   let RESULTFORMATdata = "";
   let TYPEdata = "";
@@ -148,9 +148,9 @@ router.post('/INSPECTION_INCOMING_GET_STEP2', async (req, res) => {
 
 });
 
-router.post('/GET_INCOMING_DOCUMENT', async (req, res) => {
+router.post('/GET_INCOMMING_DOCUMENT', async (req, res) => {
   //-------------------------------------
-  console.log("--GET_INCOMING_DOCUMENT--");
+  console.log("--GET_INCOMMING_DOCUMENT--");
   input = req.body;
   output = { "DOCUMENT": "" }
   //-------------------------------------
@@ -166,9 +166,9 @@ router.post('/GET_INCOMING_DOCUMENT', async (req, res) => {
   return res.json(output);
 });
 
-router.post('/GET_INCOMING_CALCULATE', async (req, res) => {
+router.post('/GET_INCOMMING_CALCULATE', async (req, res) => {
   //-------------------------------------
-  console.log("--GET_INCOMING_CALCULATE--");
+  console.log("--GET_INCOMMING_CALCULATE--");
   input = req.body;
   output = {}
   //-------------------------------------
@@ -252,7 +252,7 @@ router.post('/GET_MATCP_SETDATA', async (req, res) => {
 
       out = input.CPorder;
 
-      input[`INCOMING`] = [{
+      input[`INCOMMING`] = [{
         'SEQ': 1,
         'TYPE': input.MASTERdatalist.TYPE,
         'ITEMs': input.editedItem_IC.ITEMs,
@@ -286,9 +286,9 @@ router.post('/GET_MATCP_SETDATA', async (req, res) => {
   return res.json(output);
 });
 
-router.post('/INSPECTION_INCOMING_GETSPEC', async (req, res) => {
+router.post('/INSPECTION_INCOMMING_GETSPEC', async (req, res) => {
   //-------------------------------------
-  console.log("--INSPECTION_INCOMING_GETSPEC--");
+  console.log("--INSPECTION_INCOMMING_GETSPEC--");
   let input = req.body;
   let output = []
   //-------------------------------------
@@ -301,9 +301,9 @@ router.post('/INSPECTION_INCOMING_GETSPEC', async (req, res) => {
   return res.json(output);
 });
 
-router.post('/INCOMING_SAVE', async (req, res) => {
+router.post('/INCOMMING_SAVE', async (req, res) => {
   //-------------------------------------
-  console.log("--INCOMING_SAVE--");
+  console.log("--INCOMMING_SAVE--");
   let input = req.body;
   let output = {}
   //-------------------------------------
@@ -311,6 +311,8 @@ router.post('/INCOMING_SAVE', async (req, res) => {
   if (input['CPorder'] != null && input['MASTERdatalist'] != null && input['editedItem_IC'] != null) {
 
     let findPATTERN = await mongodb.find(PATTERN, PATTERN_01, { "CP": input[`CPorder`]['CP'] });
+
+  
     if (findPATTERN.length == 0) {
       let out = input['CPorder'];
       let newob = {
@@ -346,15 +348,17 @@ router.post('/INCOMING_SAVE', async (req, res) => {
 
     } else if ('INCOMMING' in findPATTERN[0]) {
 
-
+    
       PATTERN_create_buff = input
       ans = false
-      for (i = 0; i < findPATTERN[0].INCOMING.length; i++) {
-        if (PATTERN_create_buff.editedItem_IC.ITEMs === findPATTERN[0].INCOMING[i].ITEMs) {
+
+      for (i = 0; i < findPATTERN[0].INCOMMING.length; i++) {
+        if (PATTERN_create_buff.editedItem_IC.ITEMs === findPATTERN[0].INCOMMING[i].ITEMs) {
           ans = true
           break
         }
       }
+ 
       if (ans) {
         let input2 = findPATTERN;
         let out = input['CPorder'];
@@ -397,6 +401,7 @@ router.post('/INCOMING_SAVE', async (req, res) => {
         return res.json("ok");
 
       } else {
+   
         let input2 = findPATTERN;
         let out = input['CPorder'];
         let CP = input2[0].CP;
@@ -431,11 +436,13 @@ router.post('/INCOMING_SAVE', async (req, res) => {
         console.log(out);
 
         let updatePATTERN = await mongodb.update(PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'INCOMMING': INCOMMING } });
+
         return res.json("ok");
 
       }
 
-    } else if (('INCOMMING' in findPATTERN[0])) {
+    // } else if (('INCOMMING' in findPATTERN[0])) {
+    } else {
 
       let input2 = findPATTERN;
       let out = input['CPorder'];
@@ -473,7 +480,7 @@ router.post('/INCOMING_SAVE', async (req, res) => {
 
   }
 
-  return res.json("output");
+  return res.json(output);
 });
 
 router.post('/INCOMMING_DELETE', async (req, res) => {
@@ -533,7 +540,7 @@ router.post('/INCOMMING_DELETE', async (req, res) => {
 
   }
 
-  return res.json("output");
+  return res.json(output);
 });
 
 
