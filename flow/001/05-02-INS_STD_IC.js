@@ -274,7 +274,20 @@ router.post('/GET_MATCP_SETDATA', async (req, res) => {
         'REMARK': input.editedItem_IC.REMARK,
         'LOAD': input.editedItem_IC.LOAD,
         'CONVERSE': input.editedItem_IC.CONVERSE,
-        'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC
+        'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC,
+
+        "SWreport": input.editedItem_FN.SWreport ?? "",
+        "K1b": input.editedItem_FN.K1b ?? "",
+        "K1v": input.editedItem_FN.K1v ?? "",
+        //--------------
+        "AQL": input.editedItem_FN.AQL ?? "",
+        "AQLV": input.editedItem_FN.AQL ?? "",
+        "CONVERSEDATA": input.editedItem_FN.CONVERSEDATA ?? "",
+        "SUMDATA": input.editedItem_FN.SUMDATA ?? "",
+        "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
+        "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
+        "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
+
       }]
     } else {
       //
@@ -312,7 +325,7 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
 
     let findPATTERN = await mongodb.find(PATTERN, PATTERN_01, { "CP": input[`CPorder`]['CP'] });
 
-  
+
     if (findPATTERN.length == 0) {
       let out = input['CPorder'];
       let newob = {
@@ -337,7 +350,19 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
         'REMARK': input.editedItem_IC.REMARK,
         'LOAD': input.editedItem_IC.LOAD,
         'CONVERSE': input.editedItem_IC.CONVERSE,
-        'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC
+        'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC,
+
+        "SWreport": input.editedItem_FN.SWreport ?? "",
+        "K1b": input.editedItem_FN.K1b ?? "",
+        "K1v": input.editedItem_FN.K1v ?? "",
+        //--------------
+        "AQL": input.editedItem_FN.AQL ?? "",
+        "AQLV": input.editedItem_FN.AQL ?? "",
+        "CONVERSEDATA": input.editedItem_FN.CONVERSEDATA ?? "",
+        "SUMDATA": input.editedItem_FN.SUMDATA ?? "",
+        "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
+        "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
+        "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
       };
 
 
@@ -348,7 +373,7 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
 
     } else if ('INCOMMING' in findPATTERN[0]) {
 
-    
+
       PATTERN_create_buff = input
       ans = false
 
@@ -358,7 +383,7 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
           break
         }
       }
- 
+
       if (ans) {
         let input2 = findPATTERN;
         let out = input['CPorder'];
@@ -388,7 +413,19 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
           'REMARK': input.editedItem_IC.REMARK,
           'LOAD': input.editedItem_IC.LOAD,
           'CONVERSE': input.editedItem_IC.CONVERSE,
-          'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC
+          'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC,
+
+          "SWreport": input.editedItem_FN.SWreport ?? "",
+          "K1b": input.editedItem_FN.K1b ?? "",
+          "K1v": input.editedItem_FN.K1v ?? "",
+          //--------------
+          "AQL": input.editedItem_FN.AQL ?? "",
+          "AQLV": input.editedItem_FN.AQL ?? "",
+          "CONVERSEDATA": input.editedItem_FN.CONVERSEDATA ?? "",
+          "SUMDATA": input.editedItem_FN.SUMDATA ?? "",
+          "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
+          "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
+          "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
         };
 
 
@@ -401,7 +438,7 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
         return res.json("ok");
 
       } else {
-   
+
         let input2 = findPATTERN;
         let out = input['CPorder'];
         let CP = input2[0].CP;
@@ -429,7 +466,19 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
           'REMARK': input.editedItem_IC.REMARK,
           'LOAD': input.editedItem_IC.LOAD,
           'CONVERSE': input.editedItem_IC.CONVERSE,
-          'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC
+          'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC,
+
+          "SWreport": input.editedItem_FN.SWreport ?? "",
+          "K1b": input.editedItem_FN.K1b ?? "",
+          "K1v": input.editedItem_FN.K1v ?? "",
+          //--------------
+          "AQL": input.editedItem_FN.AQL ?? "",
+          "AQLV": input.editedItem_FN.AQL ?? "",
+          "CONVERSEDATA": input.editedItem_FN.CONVERSEDATA ?? "",
+          "SUMDATA": input.editedItem_FN.SUMDATA ?? "",
+          "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
+          "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
+          "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
         };
         INCOMMING[n] = newob;
         out = [{ 'CP': CP }, { $set: { 'INCOMMING': INCOMMING } }]
@@ -441,7 +490,7 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
 
       }
 
-    // } else if (('INCOMMING' in findPATTERN[0])) {
+      // } else if (('INCOMMING' in findPATTERN[0])) {
     } else {
 
       let input2 = findPATTERN;
@@ -471,7 +520,19 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
         'REMARK': input.editedItem_IC.REMARK,
         'LOAD': input.editedItem_IC.LOAD,
         'CONVERSE': input.editedItem_IC.CONVERSE,
-        'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC
+        'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC,
+
+        "SWreport": input.editedItem_FN.SWreport ?? "",
+        "K1b": input.editedItem_FN.K1b ?? "",
+        "K1v": input.editedItem_FN.K1v ?? "",
+        //--------------
+        "AQL": input.editedItem_FN.AQL ?? "",
+        "AQLV": input.editedItem_FN.AQL ?? "",
+        "CONVERSEDATA": input.editedItem_FN.CONVERSEDATA ?? "",
+        "SUMDATA": input.editedItem_FN.SUMDATA ?? "",
+        "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
+        "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
+        "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
       }];
 
       let updatePATTERN = await mongodb.update(PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'INCOMMING': INCOMMING } });

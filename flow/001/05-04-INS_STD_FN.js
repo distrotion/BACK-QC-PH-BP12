@@ -25,13 +25,14 @@ let CORETYPE = "CORETYPE";
 let FREQUENCY = "FREQUENCY";
 let PATTERN_01 = "PATTERN_01";
 
-//copy_cp
+//FINAL--->INCOMMING
+//_FN--->_IC
 
 router.post('/copy_cp', async (req, res) => {
   //-------------------------------------
   console.log("--copy_cp--");
   input = req.body;
-console.log(input)
+  console.log(input)
   //-------------------------------------
 
   if (input['CP_MASTER'] != undefined && input['CP_NEW'] != undefined) {
@@ -68,7 +69,7 @@ console.log(input)
         }
 
 
-   
+
       }
 
 
@@ -224,7 +225,7 @@ router.post('/GET_FINAL_DOCUMENT', async (req, res) => {
   console.log(input);
 
   if (input['METHODid'] != undefined && input['ITEMs'] != undefined) {
-    let find2 = await mongodb.find(masterDB, METHOD, { "METHOD": `${input['METHODid']}`,"ITEMs": `${input['ITEMs']}`, "activeid": "active_id" });
+    let find2 = await mongodb.find(masterDB, METHOD, { "METHOD": `${input['METHODid']}`, "ITEMs": `${input['ITEMs']}`, "activeid": "active_id" });
     if (find2.length > 0) {
       output[`DOCUMENT`] = find2[0][`DOCUMENTSM`];
     }
@@ -362,9 +363,18 @@ router.post('/FINAL_SAVE', async (req, res) => {
         'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN,
 
 
-        "SWreport": input.editedItem_FN.SWreport,
-        "K1b": input.editedItem_FN.K1b,
-        "K1v": input.editedItem_FN.K1v,
+        "SWreport": input.editedItem_FN.SWreport?? "",
+        "K1b": input.editedItem_FN.K1b?? "",
+        "K1v": input.editedItem_FN.K1v?? "",
+        //--------------
+        "AQL": input.editedItem_FN.AQL ?? "",
+        "AQLV": input.editedItem_FN.AQLV ?? "",
+        "CONVERSEDATA": input.editedItem_FN.CONVERSEDATA ?? "",
+        "SUMDATA": input.editedItem_FN.SUMDATA ?? "",
+        "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
+        "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
+        "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
+
       };
 
 
@@ -415,9 +425,17 @@ router.post('/FINAL_SAVE', async (req, res) => {
           'CONVERSE': input.editedItem_FN.CONVERSE,
           'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN,
 
-          "SWreport": input.editedItem_FN.SWreport,
-          "K1b": input.editedItem_FN.K1b,
-          "K1v": input.editedItem_FN.K1v,
+          "SWreport": input.editedItem_FN.SWreport?? "",
+          "K1b": input.editedItem_FN.K1b?? "",
+          "K1v": input.editedItem_FN.K1v?? "",
+          //--------------
+          "AQL": input.editedItem_FN.AQL ?? "",
+          "AQLV": input.editedItem_FN.AQLV ?? "",
+          "CONVERSEDATA": input.editedItem_FN.CONVERSEDATA ?? "",
+          "SUMDATA": input.editedItem_FN.SUMDATA ?? "",
+          "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
+          "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
+          "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
         };
 
 
@@ -459,9 +477,17 @@ router.post('/FINAL_SAVE', async (req, res) => {
           'CONVERSE': input.editedItem_FN.CONVERSE,
           'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN,
 
-          "SWreport": input.editedItem_FN.SWreport,
-          "K1b": input.editedItem_FN.K1b,
-          "K1v": input.editedItem_FN.K1v,
+          "SWreport": input.editedItem_FN.SWreport?? "",
+          "K1b": input.editedItem_FN.K1b?? "",
+          "K1v": input.editedItem_FN.K1v?? "",
+          //--------------
+          "AQL": input.editedItem_FN.AQL ?? "",
+          "AQLV": input.editedItem_FN.AQLV ?? "",
+          "CONVERSEDATA": input.editedItem_FN.CONVERSEDATA ?? "",
+          "SUMDATA": input.editedItem_FN.SUMDATA ?? "",
+          "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
+          "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
+          "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
         };
         FINAL[n] = newob;
         out = [{ 'CP': CP }, { $set: { 'FINAL': FINAL } }]
@@ -503,9 +529,17 @@ router.post('/FINAL_SAVE', async (req, res) => {
         'CONVERSE': input.editedItem_FN.CONVERSE,
         'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN,
 
-        "SWreport": input.editedItem_FN.SWreport,
-        "K1b": input.editedItem_FN.K1b,
-        "K1v": input.editedItem_FN.K1v,
+        "SWreport": input.editedItem_FN.SWreport?? "",
+        "K1b": input.editedItem_FN.K1b?? "",
+        "K1v": input.editedItem_FN.K1v?? "",
+        //--------------
+        "AQL": input.editedItem_FN.AQL ?? "",
+        "AQLV": input.editedItem_FN.AQLV ?? "",
+        "CONVERSEDATA": input.editedItem_FN.CONVERSEDATA ?? "",
+        "SUMDATA": input.editedItem_FN.SUMDATA ?? "",
+        "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
+        "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
+        "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
       }];
 
       let updatePATTERN = await mongodb.update(PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'FINAL': FINAL } });

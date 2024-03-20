@@ -171,7 +171,7 @@ router.post('/PIC_UPLOAD', async (req, res) => {
   let input = req.body;
   let output = {}
   //-------------------------------------
-  // console.log(input);
+  console.log(input);
   if (input['CPorder'] != null && input['PIC'] != null) {
 
     let findPATTERN = await mongodb.find(PATTERN, PATTERN_01, { "CP": input[`CPorder`]['CP'] });
