@@ -195,6 +195,64 @@ router.post('/PIC_UPLOAD', async (req, res) => {
   return res.json("output");
 });
 
+router.post('/copy_cp', async (req, res) => {
+  //-------------------------------------
+  console.log("--copy_cp--");
+  input = req.body;
+  console.log(input)
+  //-------------------------------------
+
+  if (input['CP_MASTER'] != undefined && input['CP_NEW'] != undefined) {
+
+    let masterdata = await mongodb.find(PATTERN, PATTERN_01, { "CP": `${input['CP_MASTER']}` });
+
+    if (masterdata.length > 0) {
+
+      let copy_from_fn = masterdata[0]['FINAL'] ?? {};
+      let copy_from_ic = masterdata[0]['INCOMMING'] ?? {};
+
+      let newdata = await mongodb.find(PATTERN, PATTERN_01, { "CP": `${input['CP_NEW']}` });
+      if (newdata.length > 0) {
+        let updatePATTERN = await mongodb.update(PATTERN, PATTERN_01, { 'CP': `${input['CP_NEW']}` }, { $set: { 'FINAL': copy_from_fn, 'INCOMMING': copy_from_ic } });
+        return res.json({ "msg": "OK" });
+      } else {
+
+        let find2 = await mongodb.find("ERP_data", "ERP_AUTO", {});
+
+        let ERP_data = find2[0][`data`];
+
+
+        for (let i = 0; i < ERP_data.length; i++) {
+
+          if (`${input['CP_NEW']}` === ERP_data[i]['CP']) {
+            // console.log(ERP_data[i]['CP']);
+            let neworder = ERP_data[i];
+            neworder['FINAL'] = copy_from_fn;
+            neworder['INCOMMING'] = copy_from_ic;
+            let updatePATTERN = await mongodb.insertMany(PATTERN, PATTERN_01, [neworder]);
+            // break;
+            return res.json({ "msg": "OK" });
+          }
+        }
+
+
+
+      }
+
+
+
+    } else {
+      return res.json({ "msg": "NOK" });
+    }
+  }
+  // console.log("------------");
+  // console.log(find2);
+  // console.log("------------");
+
+
+  return res.json({ "msg": "NOK" });
+});
+
 
 
 

@@ -16,6 +16,7 @@ let METHOD = "METHOD";
 let INSTRUMENTS = "INSTRUMENTS";
 let RESULTFORMAT = "RESULTFORMAT";
 let SPECIFICATION = "SPECIFICATION";
+let COMMENT = "COMMENT";
 let TOLERANCE = "TOLERANCE";
 let GRAPHTYPE = "GRAPHTYPE";
 let CALCULATE = "CALCULATE";
@@ -23,6 +24,10 @@ let LOAD = "LOAD";
 let CORETYPE = "CORETYPE";
 let FREQUENCY = "FREQUENCY";
 let PATTERN_01 = "PATTERN_01";
+
+//INCOMMING--->INCOMMING
+//_IC--->_IC
+
 
 
 
@@ -39,9 +44,9 @@ router.post('/INSPECTION_INCOMMING_GET_STEP1', async (req, res) => {
       output2.push({ "ITEMs": find2[i]['ITEMs'], "RESULTFORMAT": find2[i]['RESULTFORMAT'], "TYPE": find2[i]['TYPE'], "GRAPHTYPE": find2[i]['GRAPHTYPE'], "INTERSECTION": find2[i]['INTERSECTION'], "masterID": find2[i]['masterID'] })
     }
   }
-  console.log("------------");
-  console.log(find2);
-  console.log("------------");
+  // console.log("------------");
+  // console.log(find2);
+  // console.log("------------");
 
 
   return res.json({ "ITEMs": output2 });
@@ -65,6 +70,7 @@ router.post('/INSPECTION_INCOMMING_GET_STEP2', async (req, res) => {
   let output8 = [];
   let output9 = [];
   let output10 = [];
+  let output11 = [];
   //-------------------------------------
   if (input[`ITEMs`] != undefined) {
 
@@ -139,12 +145,18 @@ router.post('/INSPECTION_INCOMMING_GET_STEP2', async (req, res) => {
       }
     }
 
+    let find11 = await mongodb.find(masterDB, COMMENT, { "activeid": "active_id" });
+    if (find11.length > 0) {
+      for (i = 0; i < find11.length; i++) {
+        output11.push({ "COMMENT": find11[i]['COMMENT'], "masterID": find11[i]['masterID'] })
+      }
+    }
 
 
 
   }
 
-  return res.json({ "RESULTFORMATdata": RESULTFORMATdata, "METHOD": output3, "LOAD": output4, "CORETYPE": output5, "GT": output6, "UNIT": output7, "FREQUENCY": output8, "CALCULATE": output9, "SPECIFICATION": output10 });
+  return res.json({ "RESULTFORMATdata": RESULTFORMATdata, "METHOD": output3, "LOAD": output4, "CORETYPE": output5, "GT": output6, "UNIT": output7, "FREQUENCY": output8, "CALCULATE": output9, "SPECIFICATION": output10, "COMMENT": output11 });
 
 });
 
@@ -156,10 +168,28 @@ router.post('/GET_INCOMMING_DOCUMENT', async (req, res) => {
   //-------------------------------------
   console.log(input);
 
-  if (input['METHODid'] != undefined) {
-    let find2 = await mongodb.find(masterDB, METHOD, { "METHOD": `${input['METHODid']}`, "activeid": "active_id" });
+  if (input['METHODid'] != undefined && input['ITEMs'] != undefined) {
+    let find2 = await mongodb.find(masterDB, METHOD, { "METHOD": `${input['METHODid']}`, "ITEMs": `${input['ITEMs']}`, "activeid": "active_id" });
     if (find2.length > 0) {
       output[`DOCUMENT`] = find2[0][`DOCUMENTSM`];
+    }
+  }
+
+  return res.json(output);
+});
+
+router.post('/GET_INCOMMING_COMMENT', async (req, res) => {
+  //-------------------------------------
+  console.log("--GET_INCOMMING_COMMENT--");
+  input = req.body;
+  output = { "COMMENT": "" }
+  //-------------------------------------
+  console.log(input);
+
+  if (input['masterID'] != undefined) {
+    let find2 = await mongodb.find(masterDB, COMMENT, { "masterID": `${input['masterID']}`, "activeid": "active_id" });
+    if (find2.length > 0) {
+      output[`COMMENT`] = find2[0][`COMMENT`];
     }
   }
 
@@ -185,119 +215,46 @@ router.post('/GET_INCOMMING_CALCULATE', async (req, res) => {
   return res.json(output);
 });
 
-// router.post('/GET_MATCP_DATA', async (req, res) => {
-//   //-------------------------------------
-//   console.log("--GET_MATCP_DATA--");
-//   input = req.body;
-//   output = []
-//   //-------------------------------------
-//   console.log(input);
-
-//   let findTYPE = await mongodb.find(masterDB, TYPE, {});
-//   let findITEMs = await mongodb.find(masterDB, ITEMs, {});
-//   let findCALCULATE = await mongodb.find(masterDB, CALCULATE, {});
-//   let findMACHINE = await mongodb.find(masterDB, MACHINE, {});
-//   let findUNIT = await mongodb.find(masterDB, UNIT, {});
-//   let findSPECIFICATION = await mongodb.find(masterDB, SPECIFICATION, {});
-
-
-//   if (input['MATCP'] != undefined) {
-//     let find2 = await mongodb.find(PATTERN, PATTERN_01, { "CP": `${input['MATCP']}` });
-//     // console.log(find2);
-//     if (find2.length > 0) {
-//       output = find2;
-//     } else {
-//       output = [{
-//         "CP": input['MATCP'],
-//       }]
-//     }
-
-//   }
-//   output[0][`findTYPE`] = findTYPE;
-//   output[0][`findITEMs`] = findITEMs;
-//   output[0][`findCALCULATE`] = findCALCULATE;
-//   output[0][`findMACHINE`] = findMACHINE;
-//   output[0][`findUNIT`] = findUNIT;
-//   output[0][`findSPECIFICATION`] = findSPECIFICATION;
-
-//   return res.json(output);
-// });
-
-// router.post('/GET_MATCP_DATA', async (req, res) => {
-//   //-------------------------------------
-//   console.log("--GET_MATCP_DATA--");
-//   input = req.body;
-//   output = []
-//   //-------------------------------------
-//   console.log(input);
-
-//   return res.json(output);
-// });
-
-router.post('/GET_MATCP_SETDATA', async (req, res) => {
+router.post('/GET_INCOMMING_MATCP_DATA', async (req, res) => {
   //-------------------------------------
-  console.log("--GET_MATCP_SETDATA--");
-  let input = req.body;
-  let output = {}
+  console.log("--GET_INCOMMING_MATCP_DATA--");
+  input = req.body;
+  output = []
   //-------------------------------------
   console.log(input);
-  if (input['CPorder'] != undefined) {
-    let PATTERNfindDATA = await mongodb.find(PATTERN, PATTERN_01, { "CP": `${input['CPorder']}` });
+
+  let findTYPE = await mongodb.find(masterDB, TYPE, {});
+  let findITEMs = await mongodb.find(masterDB, ITEMs, {});
+  let findCALCULATE = await mongodb.find(masterDB, CALCULATE, {});
+  let findMACHINE = await mongodb.find(masterDB, MACHINE, {});
+  let findUNIT = await mongodb.find(masterDB, UNIT, {});
+  let findSPECIFICATION = await mongodb.find(masterDB, SPECIFICATION, {});
+
+
+  if (input['MATCP'] != undefined) {
+    let find2 = await mongodb.find(PATTERN, PATTERN_01, { "CP": `${input['MATCP']}` });
     // console.log(find2);
-    // output = find2;
-
-
-
-    if (PATTERNfindDATA.length === 0) {
-
-      out = input.CPorder;
-
-      input[`INCOMMING`] = [{
-        'SEQ': 1,
-        'TYPE': input.MASTERdatalist.TYPE,
-        'ITEMs': input.editedItem_IC.ITEMs,
-        'RESULTFORMAT': input.MASTERdatalist.RESULTFORMAT,
-        'GRAPHTYPE': input.MASTERdatalist.GRAPHTYPE,
-        'INTERSECTION': input.MASTERdatalist.INTERSECTION,
-        'DOCUMENT': input.editedItem_IC.DOCUMENT,
-        'SCMARK': input.editedItem_IC.SCMARK,
-        'METHOD': input.editedItem_IC.METHOD,
-        'INSTRUMENTS': input.editedItem_IC.INSTRUMENTS,
-        'SPECIFICATION': input.editedItem_IC.SPECIFICATION,
-        'SPECIFICATIONve': input.editedItem_IC.SPECIFICATIONve,
-        'UNIT': input.editedItem_IC.UNIT,
-        'POINTPCS': input.editedItem_IC.POINTPCS,
-        'POINT': input.editedItem_IC.POINT,
-        'PCS': input.editedItem_IC.PCS,
-        'FREQUENCY': input.editedItem_IC.FREQUENCY,
-        'MODE': input.editedItem_IC.MODE,
-        'REMARK': input.editedItem_IC.REMARK,
-        'LOAD': input.editedItem_IC.LOAD,
-        'CONVERSE': input.editedItem_IC.CONVERSE,
-        'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC,
-
-        "SWreport": input.editedItem_FN.SWreport ?? "",
-        "K1b": input.editedItem_FN.K1b ?? "",
-        "K1v": input.editedItem_FN.K1v ?? "",
-        //--------------
-        "AQL": input.editedItem_FN.AQL ?? "",
-        "AQLV": input.editedItem_FN.AQL ?? "",
-        "CONVERSEDATA": input.editedItem_FN.CONVERSEDATA ?? "",
-        "SUMDATA": input.editedItem_FN.SUMDATA ?? "",
-        "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
-        "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
-        "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
-
-      }]
+    if (find2.length > 0) {
+      output = find2;
     } else {
-      //
+      output = [{
+        "CP": input['MATCP'],
+      }]
     }
 
-
   }
+  output[0][`findTYPE`] = findTYPE;
+  output[0][`findITEMs`] = findITEMs;
+  output[0][`findCALCULATE`] = findCALCULATE;
+  output[0][`findMACHINE`] = findMACHINE;
+  output[0][`findUNIT`] = findUNIT;
+  output[0][`findSPECIFICATION`] = findSPECIFICATION;
 
   return res.json(output);
 });
+
+
+
 
 router.post('/INSPECTION_INCOMMING_GETSPEC', async (req, res) => {
   //-------------------------------------
@@ -322,10 +279,7 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
   //-------------------------------------
   console.log(input);
   if (input['CPorder'] != null && input['MASTERdatalist'] != null && input['editedItem_IC'] != null) {
-
     let findPATTERN = await mongodb.find(PATTERN, PATTERN_01, { "CP": input[`CPorder`]['CP'] });
-
-
     if (findPATTERN.length == 0) {
       let out = input['CPorder'];
       let newob = {
@@ -352,17 +306,19 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
         'CONVERSE': input.editedItem_IC.CONVERSE,
         'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC,
 
-        "SWreport": input.editedItem_FN.SWreport ?? "",
-        "K1b": input.editedItem_FN.K1b ?? "",
-        "K1v": input.editedItem_FN.K1v ?? "",
+
+        "SWreport": input.editedItem_IC.SWreport?? "",
+        "K1b": input.editedItem_IC.K1b?? "",
+        "K1v": input.editedItem_IC.K1v?? "",
         //--------------
-        "AQL": input.editedItem_FN.AQL ?? "",
-        "AQLV": input.editedItem_FN.AQL ?? "",
-        "CONVERSEDATA": input.editedItem_FN.CONVERSEDATA ?? "",
-        "SUMDATA": input.editedItem_FN.SUMDATA ?? "",
-        "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
-        "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
-        "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
+        "AQL": input.editedItem_IC.AQL ?? "",
+        "AQLV": input.editedItem_IC.AQLV ?? "",
+        "CONVERSEDATA": input.editedItem_IC.CONVERSEDATA ?? "",
+        "SUMDATA": input.editedItem_IC.SUMDATA ?? "",
+        "SRAWDATA": input.editedItem_IC.SRAWDATA ?? "",
+        "SCMARKTYPE": input.editedItem_IC.SCMARKTYPE ?? "",
+        "SUMDATATEXT": input.editedItem_IC.SUMDATATEXT ?? "",
+
       };
 
 
@@ -376,14 +332,12 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
 
       PATTERN_create_buff = input
       ans = false
-
       for (i = 0; i < findPATTERN[0].INCOMMING.length; i++) {
         if (PATTERN_create_buff.editedItem_IC.ITEMs === findPATTERN[0].INCOMMING[i].ITEMs) {
           ans = true
           break
         }
       }
-
       if (ans) {
         let input2 = findPATTERN;
         let out = input['CPorder'];
@@ -415,17 +369,17 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
           'CONVERSE': input.editedItem_IC.CONVERSE,
           'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC,
 
-          "SWreport": input.editedItem_FN.SWreport ?? "",
-          "K1b": input.editedItem_FN.K1b ?? "",
-          "K1v": input.editedItem_FN.K1v ?? "",
+          "SWreport": input.editedItem_IC.SWreport?? "",
+          "K1b": input.editedItem_IC.K1b?? "",
+          "K1v": input.editedItem_IC.K1v?? "",
           //--------------
-          "AQL": input.editedItem_FN.AQL ?? "",
-          "AQLV": input.editedItem_FN.AQL ?? "",
-          "CONVERSEDATA": input.editedItem_FN.CONVERSEDATA ?? "",
-          "SUMDATA": input.editedItem_FN.SUMDATA ?? "",
-          "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
-          "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
-          "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
+          "AQL": input.editedItem_IC.AQL ?? "",
+          "AQLV": input.editedItem_IC.AQLV ?? "",
+          "CONVERSEDATA": input.editedItem_IC.CONVERSEDATA ?? "",
+          "SUMDATA": input.editedItem_IC.SUMDATA ?? "",
+          "SRAWDATA": input.editedItem_IC.SRAWDATA ?? "",
+          "SCMARKTYPE": input.editedItem_IC.SCMARKTYPE ?? "",
+          "SUMDATATEXT": input.editedItem_IC.SUMDATATEXT ?? "",
         };
 
 
@@ -438,7 +392,6 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
         return res.json("ok");
 
       } else {
-
         let input2 = findPATTERN;
         let out = input['CPorder'];
         let CP = input2[0].CP;
@@ -468,30 +421,28 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
           'CONVERSE': input.editedItem_IC.CONVERSE,
           'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC,
 
-          "SWreport": input.editedItem_FN.SWreport ?? "",
-          "K1b": input.editedItem_FN.K1b ?? "",
-          "K1v": input.editedItem_FN.K1v ?? "",
+          "SWreport": input.editedItem_IC.SWreport?? "",
+          "K1b": input.editedItem_IC.K1b?? "",
+          "K1v": input.editedItem_IC.K1v?? "",
           //--------------
-          "AQL": input.editedItem_FN.AQL ?? "",
-          "AQLV": input.editedItem_FN.AQL ?? "",
-          "CONVERSEDATA": input.editedItem_FN.CONVERSEDATA ?? "",
-          "SUMDATA": input.editedItem_FN.SUMDATA ?? "",
-          "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
-          "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
-          "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
+          "AQL": input.editedItem_IC.AQL ?? "",
+          "AQLV": input.editedItem_IC.AQLV ?? "",
+          "CONVERSEDATA": input.editedItem_IC.CONVERSEDATA ?? "",
+          "SUMDATA": input.editedItem_IC.SUMDATA ?? "",
+          "SRAWDATA": input.editedItem_IC.SRAWDATA ?? "",
+          "SCMARKTYPE": input.editedItem_IC.SCMARKTYPE ?? "",
+          "SUMDATATEXT": input.editedItem_IC.SUMDATATEXT ?? "",
         };
         INCOMMING[n] = newob;
         out = [{ 'CP': CP }, { $set: { 'INCOMMING': INCOMMING } }]
         console.log(out);
 
         let updatePATTERN = await mongodb.update(PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'INCOMMING': INCOMMING } });
-
         return res.json("ok");
 
       }
 
-      // } else if (('INCOMMING' in findPATTERN[0])) {
-    } else {
+    } else if (('INCOMMING' in findPATTERN[0])) {
 
       let input2 = findPATTERN;
       let out = input['CPorder'];
@@ -522,17 +473,17 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
         'CONVERSE': input.editedItem_IC.CONVERSE,
         'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC,
 
-        "SWreport": input.editedItem_FN.SWreport ?? "",
-        "K1b": input.editedItem_FN.K1b ?? "",
-        "K1v": input.editedItem_FN.K1v ?? "",
+        "SWreport": input.editedItem_IC.SWreport?? "",
+        "K1b": input.editedItem_IC.K1b?? "",
+        "K1v": input.editedItem_IC.K1v?? "",
         //--------------
-        "AQL": input.editedItem_FN.AQL ?? "",
-        "AQLV": input.editedItem_FN.AQL ?? "",
-        "CONVERSEDATA": input.editedItem_FN.CONVERSEDATA ?? "",
-        "SUMDATA": input.editedItem_FN.SUMDATA ?? "",
-        "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
-        "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
-        "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
+        "AQL": input.editedItem_IC.AQL ?? "",
+        "AQLV": input.editedItem_IC.AQLV ?? "",
+        "CONVERSEDATA": input.editedItem_IC.CONVERSEDATA ?? "",
+        "SUMDATA": input.editedItem_IC.SUMDATA ?? "",
+        "SRAWDATA": input.editedItem_IC.SRAWDATA ?? "",
+        "SCMARKTYPE": input.editedItem_IC.SCMARKTYPE ?? "",
+        "SUMDATATEXT": input.editedItem_IC.SUMDATATEXT ?? "",
       }];
 
       let updatePATTERN = await mongodb.update(PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'INCOMMING': INCOMMING } });
@@ -541,8 +492,9 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
 
   }
 
-  return res.json(output);
+  return res.json("output");
 });
+
 
 router.post('/INCOMMING_DELETE', async (req, res) => {
   //-------------------------------------
@@ -594,18 +546,22 @@ router.post('/INCOMMING_DELETE', async (req, res) => {
       }
 
 
-    } else if (('INCOMMING' in findPATTERN[0])) {
+    } else {
+
 
       return res.json("nok");
     }
 
   }
 
-  return res.json(output);
+  return res.json("output");
 });
 
 
 
+
+
+
+
+
 module.exports = router;
-
-
