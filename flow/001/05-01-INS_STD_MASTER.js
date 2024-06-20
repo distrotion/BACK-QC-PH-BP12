@@ -6,6 +6,7 @@ var request = require('request');
 
 let masterDB_FN = "master_FN";
 let masterDB_IC = "master_IC";
+let masterDB_IP = "master_IP";
 let PATTERN = "PATTERN";
 //
 let GRAPH_TABLE = "GRAPH_TABLE";
@@ -63,6 +64,13 @@ router.post('/GET_MATCP_DATA', async (req, res) => {
   let findUNIT_IC = await mongodb.find(masterDB_IC, UNIT, {});
   let findSPECIFICATION_IC = await mongodb.find(masterDB_IC, SPECIFICATION, {});
 
+  let findTYPE_IP = await mongodb.find(masterDB_IP, TYPE, {});
+  let findITEMs_IP = await mongodb.find(masterDB_IP, ITEMs, {});
+  let findCALCULATE_IP = await mongodb.find(masterDB_IP, CALCULATE, {});
+  let findMACHINE_IP = await mongodb.find(masterDB_IP, MACHINE, {});
+  let findUNIT_IP = await mongodb.find(masterDB_IP, UNIT, {});
+  let findSPECIFICATION_IP = await mongodb.find(masterDB_IP, SPECIFICATION, {});
+
 
   // let findTYPE_IC = await mongodb.find(masterDB_IC, TYPE, {});
   // let findITEMs_IC = await mongodb.find(masterDB_IC, ITEMs, {});
@@ -99,6 +107,13 @@ router.post('/GET_MATCP_DATA', async (req, res) => {
   output[0][`findMACHINE_IC`] = findMACHINE_IC;
   output[0][`findUNIT_IC`] = findUNIT_IC;
   output[0][`findSPECIFICATION_IC`] = findSPECIFICATION_IC;
+
+  output[0][`findTYPE_IP`] = findTYPE_IP;
+  output[0][`findITEMs_IP`] = findITEMs_IP;
+  output[0][`findCALCULATE_IP`] = findCALCULATE_IP;
+  output[0][`findMACHINE_IP`] = findMACHINE_IP;
+  output[0][`findUNIT_IP`] = findUNIT_IP;
+  output[0][`findSPECIFICATION_IP`] = findSPECIFICATION_IP;
 
 
   // output[0][`findTYPE_IC`] = findTYPE_IC;
