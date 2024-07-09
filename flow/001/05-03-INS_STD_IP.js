@@ -307,9 +307,9 @@ router.post('/INPROCESS_SAVE', async (req, res) => {
         'GRAPH_TABLE_IP': input.editedItem_IP.GRAPH_TABLE_IP,
 
 
-        "SWreport": input.editedItem_IP.SWreport?? "",
-        "K1b": input.editedItem_IP.K1b?? "",
-        "K1v": input.editedItem_IP.K1v?? "",
+        "SWreport": input.editedItem_IP.SWreport ?? "",
+        "K1b": input.editedItem_IP.K1b ?? "",
+        "K1v": input.editedItem_IP.K1v ?? "",
         //--------------
         "AQL": input.editedItem_IP.AQL ?? "",
         "AQLV": input.editedItem_IP.AQLV ?? "",
@@ -318,6 +318,11 @@ router.post('/INPROCESS_SAVE', async (req, res) => {
         "SRAWDATA": input.editedItem_IP.SRAWDATA ?? "",
         "SCMARKTYPE": input.editedItem_IP.SCMARKTYPE ?? "",
         "SUMDATATEXT": input.editedItem_IP.SUMDATATEXT ?? "",
+
+        "CONIP": input.editedItem_IP.CONIP ?? "",
+        "CONIPITEM": input.editedItem_IP.CONIPITEM ?? "",
+        "CONIPITEMVAR": input.editedItem_IP.CONIPITEMVAR ?? "",
+
 
       };
 
@@ -369,9 +374,9 @@ router.post('/INPROCESS_SAVE', async (req, res) => {
           'CONVERSE': input.editedItem_IP.CONVERSE,
           'GRAPH_TABLE_IP': input.editedItem_IP.GRAPH_TABLE_IP,
 
-          "SWreport": input.editedItem_IP.SWreport?? "",
-          "K1b": input.editedItem_IP.K1b?? "",
-          "K1v": input.editedItem_IP.K1v?? "",
+          "SWreport": input.editedItem_IP.SWreport ?? "",
+          "K1b": input.editedItem_IP.K1b ?? "",
+          "K1v": input.editedItem_IP.K1v ?? "",
           //--------------
           "AQL": input.editedItem_IP.AQL ?? "",
           "AQLV": input.editedItem_IP.AQLV ?? "",
@@ -380,6 +385,10 @@ router.post('/INPROCESS_SAVE', async (req, res) => {
           "SRAWDATA": input.editedItem_IP.SRAWDATA ?? "",
           "SCMARKTYPE": input.editedItem_IP.SCMARKTYPE ?? "",
           "SUMDATATEXT": input.editedItem_IP.SUMDATATEXT ?? "",
+
+          "CONIP": input.editedItem_IP.CONIP ?? "",
+          "CONIPITEM": input.editedItem_IP.CONIPITEM ?? "",
+          "CONIPITEMVAR": input.editedItem_IP.CONIPITEMVAR ?? "",
         };
 
 
@@ -421,9 +430,9 @@ router.post('/INPROCESS_SAVE', async (req, res) => {
           'CONVERSE': input.editedItem_IP.CONVERSE,
           'GRAPH_TABLE_IP': input.editedItem_IP.GRAPH_TABLE_IP,
 
-          "SWreport": input.editedItem_IP.SWreport?? "",
-          "K1b": input.editedItem_IP.K1b?? "",
-          "K1v": input.editedItem_IP.K1v?? "",
+          "SWreport": input.editedItem_IP.SWreport ?? "",
+          "K1b": input.editedItem_IP.K1b ?? "",
+          "K1v": input.editedItem_IP.K1v ?? "",
           //--------------
           "AQL": input.editedItem_IP.AQL ?? "",
           "AQLV": input.editedItem_IP.AQLV ?? "",
@@ -432,6 +441,10 @@ router.post('/INPROCESS_SAVE', async (req, res) => {
           "SRAWDATA": input.editedItem_IP.SRAWDATA ?? "",
           "SCMARKTYPE": input.editedItem_IP.SCMARKTYPE ?? "",
           "SUMDATATEXT": input.editedItem_IP.SUMDATATEXT ?? "",
+
+          "CONIP": input.editedItem_IP.CONIP ?? "",
+          "CONIPITEM": input.editedItem_IP.CONIPITEM ?? "",
+          "CONIPITEMVAR": input.editedItem_IP.CONIPITEMVAR ?? "",
         };
         INPROCESS[n] = newob;
         out = [{ 'CP': CP }, { $set: { 'INPROCESS': INPROCESS } }]
@@ -442,7 +455,7 @@ router.post('/INPROCESS_SAVE', async (req, res) => {
 
       }
 
-    // } else if (('INPROCESS' in findPATTERN[0])) {
+      // } else if (('INPROCESS' in findPATTERN[0])) {
     } else {
 
       let input2 = findPATTERN;
@@ -474,9 +487,9 @@ router.post('/INPROCESS_SAVE', async (req, res) => {
         'CONVERSE': input.editedItem_IP.CONVERSE,
         'GRAPH_TABLE_IP': input.editedItem_IP.GRAPH_TABLE_IP,
 
-        "SWreport": input.editedItem_IP.SWreport?? "",
-        "K1b": input.editedItem_IP.K1b?? "",
-        "K1v": input.editedItem_IP.K1v?? "",
+        "SWreport": input.editedItem_IP.SWreport ?? "",
+        "K1b": input.editedItem_IP.K1b ?? "",
+        "K1v": input.editedItem_IP.K1v ?? "",
         //--------------
         "AQL": input.editedItem_IP.AQL ?? "",
         "AQLV": input.editedItem_IP.AQLV ?? "",
@@ -485,6 +498,10 @@ router.post('/INPROCESS_SAVE', async (req, res) => {
         "SRAWDATA": input.editedItem_IP.SRAWDATA ?? "",
         "SCMARKTYPE": input.editedItem_IP.SCMARKTYPE ?? "",
         "SUMDATATEXT": input.editedItem_IP.SUMDATATEXT ?? "",
+
+        "CONIP": input.editedItem_IP.CONIP ?? "",
+        "CONIPITEM": input.editedItem_IP.CONIPITEM ?? "",
+        "CONIPITEMVAR": input.editedItem_IP.CONIPITEMVAR ?? "",
       }];
 
       let updatePATTERN = await mongodb.update(PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'INPROCESS': INPROCESS } });
