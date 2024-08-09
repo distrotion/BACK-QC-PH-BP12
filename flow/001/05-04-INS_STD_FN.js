@@ -319,6 +319,13 @@ router.post('/FINAL_SAVE', async (req, res) => {
         "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
         "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
 
+        "VARX": input.editedItem_FN.VARX ?? "",
+        "VARY": input.editedItem_FN.VARY ?? "",
+        "VARZ": input.editedItem_FN.VARZ ?? "",
+        "VARI": input.editedItem_FN.VARI ?? "",
+
+        "shape": input.editedItem_FN.shape ?? "",
+
       };
 
 
@@ -380,6 +387,12 @@ router.post('/FINAL_SAVE', async (req, res) => {
           "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
           "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
           "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
+
+          "VARX": input.editedItem_FN.VARX ?? "",
+          "VARY": input.editedItem_FN.VARY ?? "",
+          "VARZ": input.editedItem_FN.VARZ ?? "",
+          "VARI": input.editedItem_FN.VARI ?? "",
+          "shape": input.editedItem_FN.shape ?? "",
         };
 
 
@@ -432,6 +445,12 @@ router.post('/FINAL_SAVE', async (req, res) => {
           "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
           "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
           "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
+
+          "VARX": input.editedItem_FN.VARX ?? "",
+          "VARY": input.editedItem_FN.VARY ?? "",
+          "VARZ": input.editedItem_FN.VARZ ?? "",
+          "VARI": input.editedItem_FN.VARI ?? "",
+          "shape": input.editedItem_FN.shape ?? "",
         };
         FINAL[n] = newob;
         out = [{ 'CP': CP }, { $set: { 'FINAL': FINAL } }]
@@ -484,6 +503,12 @@ router.post('/FINAL_SAVE', async (req, res) => {
         "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
         "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
         "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
+
+        "VARX": input.editedItem_FN.VARX ?? "",
+        "VARY": input.editedItem_FN.VARY ?? "",
+        "VARZ": input.editedItem_FN.VARZ ?? "",
+        "VARI": input.editedItem_FN.VARI ?? "",
+        "shape": input.editedItem_FN.shape ?? "",
       }];
 
       let updatePATTERN = await mongodb.update(PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'FINAL': FINAL } });
