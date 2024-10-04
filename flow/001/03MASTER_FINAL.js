@@ -538,17 +538,17 @@ router.post('/EDIT_UNIT_FINAL', async (req, res) => {
       if (find01.length > 0) {
         let uid = input.masterID;
         delete input.masterID;
-        input[`activeid`] = 'active_id';
-        let find02 = await mongodb.find(masterDB, UNIT, { "UNIT": input[`UNIT`], "activeid": "active_id" });
+        // input[`activeid`] = 'active_id';
+        // let find02 = await mongodb.find(masterDB, UNIT, { "UNIT": input[`UNIT`], "activeid": "active_id" });
         // let find02 = await mongodb.find(masterDB, UNIT, { $or: [ { "UNIT":input[`UNIT`],"TYPE":input[`TYPE`] ,"activeid":"active_id" }, { "UNIT":input[`UNIT`],"TYPE":input[`TYPE`] ,"activeid":"active_id"}] });
-        if (find02.length > 0) {
+        // if (find02.length > 0) {
           let update01 = await mongodb.update(masterDB, UNIT, { 'masterID': uid }, { "$set": { "TYPE": input[`TYPE`], "DESIMAL": input[`DESIMAL`] } });
           output = "OK";
-        } else {
-          console.log(input);
-          let update01 = await mongodb.update(masterDB, UNIT, { 'masterID': uid }, { "$set": input });
-          output = "OK";
-        }
+        // } else {
+        //   console.log(input);
+        //   let update01 = await mongodb.update(masterDB, UNIT, { 'masterID': uid }, { "$set": input });
+        //   output = "OK";
+        // }
 
       } else {
 
